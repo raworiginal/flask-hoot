@@ -31,7 +31,7 @@ def create_hoot():
         )
         created_hoot = cursor.fetchone()
         connection.commit()
-        return jsonify({"hoot": created_hoot}), 201  # FIX: return a response
+        return jsonify(created_hoot), 201  # FIX: return a response
     except Exception as error:
         return jsonify({"error": str(error)}), 500
 
@@ -54,7 +54,7 @@ def hoots_index():
         consolidated_hoots = consolidate_comments_in_hoots(hoots)
         connection.commit()
         connection.close()
-        return jsonify({"hoots": hoots}), 200
+        return jsonify(consolidated_hoots), 200
     except Exception as error:
         return jsonify({"error": str(error)}), 500
 
@@ -79,7 +79,7 @@ def show_hoot(hoot_id):
         if unprocessed_hoot is not None:
             processed_hoot = consolidate_comments_in_hoots(unprocessed_hoot)[0]
             connection.close()
-            return jsonify({"hoot": processed_hoot}), 200
+            return jsonify(processed_hoot), 200
         else:
             connection.close()
             return jsonify({"error": "Hoot not found"}), 404
@@ -114,7 +114,7 @@ def update_hoot(hoot_id):
         updated_hoot = cursor.fetchone()
         connection.commit()
         connection.close()
-        return jsonify({"hoot": updated_hoot}), 200
+        return jsonify(updated_hoot), 200
     except Exception as error:
         return jsonify({"error": str(error)}), 500
 
